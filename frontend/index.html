@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestor de Tareas</title>
+  <script src="/static/app.js"></script>
+</head>
+<body>
+  <h1>Mis Tareas</h1>
+
+  <form id="tarea-form">
+    <input type="text" id="titulo" placeholder="Título" required />
+    <input type="text" id="descripcion" placeholder="Descripción" required />
+    <input type="date" id="fecha_limite" required />
+    <select id="prioridad">
+      <option value="alta">Alta</option>
+      <option value="media" selected>Media</option>
+      <option value="baja">Baja</option>
+    </select>
+    <button type="submit">Agregar Tarea</button>
+  </form>
+
+  <ul id="tareas-lista"></ul>
+</body>
+</html>
