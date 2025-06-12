@@ -3,12 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <title>Gestor de Tareas</title>
+  <link rel="stylesheet" href="/static/style.css">
   <script src="/static/app.js"></script>
 </head>
 <body>
   <h1>Mis Tareas</h1>
 
   <form id="tarea-form">
+    <input type="hidden" id="tarea-id" />
     <input type="text" id="titulo" placeholder="Título" required />
     <input type="text" id="descripcion" placeholder="Descripción" required />
     <input type="date" id="fecha_limite" required />

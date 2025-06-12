@@ -5,20 +5,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("tarea-form").addEventListener("submit", async (e) => {
     e.preventDefault();
-    const nuevaTarea = {
+    const tareaId = document.getElementById("tarea-id").value;
+    const tareaData = {
       titulo: document.getElementById("titulo").value,
       descripcion: document.getElementById("descripcion").value,
       fecha_limite: document.getElementById("fecha_limite").value,
       prioridad: document.getElementById("prioridad").value
     };
 
-    await fetch(API_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(nuevaTarea)
-    });
+    if (tareaId) {
+      // Editar tarea
+      await fetch(`${API_URL}/${tareaId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(tareaData)
+      });
+    } else {
+      // Crear tarea
+      await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(tareaData)
+      });
+    }
 
     e.target.reset();
+    document.getElementById("tarea-id").value = "";
     cargarTareas();
   });
 });
@@ -34,6 +46,7 @@ async function cargarTareas() {
     const li = document.createElement("li");
     li.innerHTML = `
       <strong>${t.titulo}</strong> - ${t.descripcion} (venc: ${t.fecha_limite}) - <em>${t.prioridad}</em>
+      <button onclick="editarTarea('${t.id}', '${t.titulo}', '${t.descripcion}', '${t.fecha_limite}', '${t.prioridad}')">Editar</button>
       <button onclick="eliminarTarea('${t.id}')">Eliminar</button>
     `;
     lista.appendChild(li);
@@ -43,4 +56,12 @@ async function cargarTareas() {
 async function eliminarTarea(id) {
   await fetch(`${API_URL}/${id}`, { method: "DELETE" });
   cargarTareas();
+}
+
+function editarTarea(id, titulo, descripcion, fecha, prioridad) {
+  document.getElementById("tarea-id").value = id;
+  document.getElementById("titulo").value = titulo;
+  document.getElementById("descripcion").value = descripcion;
+  document.getElementById("fecha_limite").value = fecha;
+  document.getElementById("prioridad").value = prioridad;
 }
